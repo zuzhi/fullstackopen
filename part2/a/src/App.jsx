@@ -64,6 +64,10 @@ const App = () => {
         setNotes(notes.concat(returnedNote))
         setNewNote('')
       })
+      .catch(error => {
+        console.log(error)
+        setErrorMessage(error.response.data.error)
+      })
   }
 
   const handleNoteChange = (event) => {
