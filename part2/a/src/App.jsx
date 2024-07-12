@@ -23,13 +23,11 @@ const Footer = () => {
 
 const App = () => {
   const [notes, setNotes] = useState([])
-  const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [ username, setUsername ] = useState('')
-  const [ password, setPassword ] = useState('')
-  const [ user, setUser ] = useState(null)
-  const [ loginVisible, setLoginVisible ] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     noteService
@@ -68,18 +66,11 @@ const App = () => {
       })
   }
 
-  const addNote = (event) => {
-    event.preventDefault();
-    const noteObject = {
-      content: newNote,
-      important: Math.random() < 0.5,
-    }
-
+  const addNote = (noteObject) => {
     noteService
       .create(noteObject)
       .then(returnedNote => {
         setNotes(notes.concat(returnedNote))
-        setNewNote('')
       })
       .catch(error => {
         console.log(error)
@@ -88,11 +79,6 @@ const App = () => {
           setErrorMessage(null)
         }, 5000)
       })
-  }
-
-  const handleNoteChange = (event) => {
-    console.log(event.target.value)
-    setNewNote(event.target.value)
   }
 
   const notesToShow = showAll
@@ -136,11 +122,7 @@ const App = () => {
 
   const noteForm = () => (
     <Togglable buttonLabel='new note'>
-      <NoteForm
-        onSubmit={addNote}
-        value={newNote}
-        handleChange={handleNoteChange}
-      />
+      <NoteForm createNote={addNote} />
     </Togglable>
   )
 
