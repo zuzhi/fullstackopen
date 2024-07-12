@@ -84,8 +84,8 @@ const App = () => {
   }
 
   const notesToShow = showAll
-        ? notes
-        : notes.filter(note => note.important === true)
+    ? notes
+    : notes.filter(note => note.important === true)
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -134,11 +134,11 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {user === null ?
-       loginForm() :
-       <div>
-         <p>{user.name} logged-in</p>
-         {noteForm()}
-       </div>}
+        loginForm() :
+        <div>
+          <p>{user.name} logged-in</p>
+          {noteForm()}
+        </div>}
 
       <div>
         <button onClick={() => setShowAll(!showAll)}>
