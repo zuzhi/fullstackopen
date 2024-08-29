@@ -5,6 +5,7 @@ import Persons from "./components/Persons"
 import PersonForm from "./components/PersonForm"
 import { ALL_PERSONS } from "./queries"
 import { useState } from "react"
+import PhoneForm from "./components/PhoneForm"
 
 function App() {
   const [errorMessage, setErrorMessage] = useState(null)
@@ -25,8 +26,9 @@ function App() {
   return (
     <div>
       <Notify errorMessage={errorMessage} />
-      <PersonForm setError={notify} />
       <Persons persons={result.data.allPersons} />
+      <PersonForm setError={notify} />
+      <PhoneForm setError={notify} />
     </div>
   )
 }
