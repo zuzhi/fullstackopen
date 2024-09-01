@@ -4,7 +4,7 @@ const { ApolloServerPluginDrainHttpServer } = require('@apollo/server/plugin/dra
 const { makeExecutableSchema } = require('@graphql-tools/schema')
 const express = require('express')
 const cors = require('cors')
-const http = require('http')
+const { createServer } = require('http')
 
 const jwt = require('jsonwebtoken')
 
@@ -33,20 +33,23 @@ mongoose.connect(MONGODB_URI)
 // setup is now within a function
 const start = async () => {
   const app = express()
-  const httpServer = http.createServer(app)
+  const httpServer = createServer(app)
+
+  const schema = makeExecutableSchema({ typeDefs, resolvers })
 
   const wsServer = new WebSocketServer({
     server: httpServer,
-    path: '/',
+    path: '/subscriptions',
   })
-
-  const schema = makeExecutableSchema({ typeDefs, resolvers })
   const serverCleanup = useServer({ schema }, wsServer)
 
   const server = new ApolloServer({
     schema,
     plugins: [
+      // Proper shutdown for the HTTP server.
       ApolloServerPluginDrainHttpServer({ httpServer }),
+
+      // Proper shutdown for the WebSocket server.
       {
         async serverWillStart() {
           return {

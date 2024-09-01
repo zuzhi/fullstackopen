@@ -73,3 +73,17 @@ mutation login($username: String!, $password: String!) {
   }
 }
 `
+
+export const PERSON_ADDED = gql`
+subscription {
+  personAdded {
+    id
+    name
+    phone
+    address {
+      street
+      city
+    }
+  }
+}
+`
